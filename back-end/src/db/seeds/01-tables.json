@@ -1,0 +1,42 @@
+[
+    {
+        "table_name": "Table A",
+        "capacity": 4
+    },
+    {
+        "table_name": "Table B",
+        "capacity": 5
+    },
+    {
+        "table_name": "Bar #3",
+        "capacity": 2
+    },
+    {
+        "table_name": "Bar #4",
+        "capacity": 3
+    },
+    {
+        "table_name": "#3",
+        "capacity": 7
+    },
+    {
+        "table_name": "#4",
+        "capacity": 8
+    },
+    {
+        "table_name": "Table C",
+        "capacity": 6
+    },
+    {
+        "table_name": "Table D",
+        "capacity": 4
+    },
+    {
+        "table_name": "Bar #5",
+        "capacity": 3
+    },
+    {
+        "table_name": "Bar #6",
+        "capacity": 2
+    }
+]
