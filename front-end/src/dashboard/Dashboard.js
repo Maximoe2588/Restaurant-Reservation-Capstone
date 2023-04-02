@@ -3,8 +3,7 @@ import { listReservations, listTables } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import DateNavigation from "./DateNavig";
 import ReservationsList from "../reservations/list/ReservationsList";
-//import TablesList from "../tables/list/TablesList";
-//import CurrentTime from "../widgets/CurrentTime";
+
 
 /**
  * Defines the dashboard page.
@@ -46,14 +45,23 @@ export default Dashboard;
 */
 
 function Dashboard({ date: initialDate }) {
+
+//extracts query string parameter that renders dashboard view
+
   const queryDate = useQuery().get("date");
   const [date, setDate] = useState(queryDate || initialDate);
+
+
+//reservations and error set to empty array and null
+//tables and error set to empty array and null
 
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
 
   const [tables, setTables] = useState([]);
   const [tablesError, setTablesError] = useState(null);
+
+//utilize utils listReservation to fetch reservations and tables data based on data
 
   useEffect(() => {
     async function fetchData() {
@@ -66,6 +74,9 @@ function Dashboard({ date: initialDate }) {
       } catch (error) {
         if (error.name === "AbortError") return;
         console.error(error);
+
+ // set the error messages for reservations and tables state
+
         setReservationsError({
           message: "An unexpected error occurred while loading reservations.",
         });
@@ -77,13 +88,14 @@ function Dashboard({ date: initialDate }) {
     fetchData();
   }, [date]);
 
-  const displayDateLong = formatDisplayDate(date, "long");
+
+
+// render the dashboard view with the state of reservations, tables and errors
 
   return (
     <main>
       <div>
         <div>
-          <h2>{displayDateLong}</h2>
           <DateNavigation date={date} setDate={setDate} />
         </div>
       </div>
@@ -93,8 +105,8 @@ function Dashboard({ date: initialDate }) {
             <legend>
               <CurrentTime sectionTitle={"Reservations"} />
             </legend>
-            <ReservationsList reservations={reservations} />
-            <ErrorAlert error={reservationsError} />
+              <ReservationsList reservations={reservations} />
+              <ErrorAlert error={reservationsError} />
           </fieldset>
         </div>
       </div>
@@ -102,8 +114,8 @@ function Dashboard({ date: initialDate }) {
         <div>
           <fieldset>
             <legend>Tables</legend>
-            <TablesList tables={tables} />
-            <ErrorAlert error={tablesError} />
+              <TablesList tables={tables} />
+              <ErrorAlert error={tablesError} />
           </fieldset>
         </div>
       </div>

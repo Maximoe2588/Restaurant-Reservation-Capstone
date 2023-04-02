@@ -4,6 +4,10 @@ import React, { useState, useEffect } from "react";
 
 function Form({ method }) {
 
+    const { reservation_id } = useParams();
+    const [reservationsError, setReservationError] = useState(null);
+    const history = useHistory();
+
     const initialFormState = {
         first_name: "",
         last_name: "",
@@ -15,22 +19,52 @@ function Form({ method }) {
 
     const [formData, setFormData] = useState({ ...initialFormState });
 
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        method === "POST" ? submitNew() : submitEdit();
+        };
+    
+    const submitNew = () => {
+        const abortController = new AbortController();
+        setReservationError(null);
+    
+        postReservation(formData, abortController.signal)
+            .then(() => history.push(`/dashboard?date=${formData.reservation_date}`))
+            .catch(setReservationError);
+    
+        return () => abortController.abort();
+    };
+    
+    const submitEdit = () => {
+        const abortController = new AbortController();
+        setReservationError(null);
+
+
+    const handleCancel = (event) => {
+        event.preventDefault();
+            // cancelling a new reservation while in progress sends user back to previous page.
+        history.goBack();
+    };
+
     return (
         <form onSubmit={handleSubmit}>
         <label>
             First name:
             <input
+                id="first_name"
                 type="text"
                 name="first_name"
                 value={form.first_name}
                 onChange={handleChange}
-                required
+                value={formData.first_name}
+                required={true}
             />
             </label>
             <br />
             <label>
             Last name:
             <input
+                id="last_name"
                 type="text"
                 name="last_name"
                 value={form.last_name}
@@ -70,24 +104,24 @@ function Form({ method }) {
                 onChange={handleChange}
                 required
             />
-          </label>
-          <br />
-          <label>
+            </label>
+            <br />
+            <label>
             Number of people:
             <input
-              type="number"
-              name="people"
-              value={form.people}
-              onChange={handleChange}
-              min="1"
-              required
+                type="number"
+                name="people"
+                value={form.people}
+                onChange={handleChange}
+                min="1"
+                required
             />
-          </label>
-          <br />
-          <button type="submit">Submit</button>
-          <button type="button" onClick={handleCancel}>Cancel</button>
+            </label>
+            <br />
+            <button type="submit">Submit</button>
+            <button type="button" onClick={handleCancel}>Cancel</button>
         </form>
-      );
-    };
+    );
+};
 
 export default Form; 

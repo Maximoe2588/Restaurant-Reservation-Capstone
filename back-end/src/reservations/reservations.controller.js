@@ -1,4 +1,6 @@
 const service = require("./reservations.service");
+const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
+
 
 async function reservationExists(req, res, next) {
   const { reservationId } = req.params;

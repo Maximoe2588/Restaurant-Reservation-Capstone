@@ -1,3 +1,5 @@
+//inserts table data into table
+
 const tables = require("./01-tables.json");
 
 exports.seed = function (knex) {

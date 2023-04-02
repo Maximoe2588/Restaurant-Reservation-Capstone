@@ -20,7 +20,6 @@ function NewTable() {
         const handleChange = ({ target }) => {
             let value = target.value;
     
-          // Fixes issue of *capacity* changing into a string
             if (target.name === "capacity" && typeof value === "string") {
             value = +value;
             }
@@ -45,7 +44,7 @@ function NewTable() {
     
         const handleCancel = (event) => {
             event.preventDefault();
-          // cancelling a new table while in progress sends user back to previous page.
+        
             history.goBack();
         };
 
