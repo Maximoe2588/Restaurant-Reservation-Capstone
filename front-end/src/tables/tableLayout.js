@@ -59,6 +59,6 @@ function tableLayout({ table }) {
         </div>
         </div>
         );
-    
+            }
 
 export default tableLayout;

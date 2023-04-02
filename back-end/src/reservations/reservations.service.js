@@ -16,5 +16,7 @@ function create(reservation) {
 
 
 module.exports = {
+    create,
+    read,
     
 }
