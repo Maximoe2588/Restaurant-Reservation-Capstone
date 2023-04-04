@@ -11,4 +11,8 @@ const controller = require("./reservations.controller");
 //     .get(controller.list)
 //     .post(controller.create);
 
+//router.route("/:reservationId")
+//      .get(controller.read)
+//      .put(controller.update);
+
 module.exports = router;

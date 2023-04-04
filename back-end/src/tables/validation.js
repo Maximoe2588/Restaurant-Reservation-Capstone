@@ -1,4 +1,4 @@
-
+/*
 const hasProperties = require("../errors/hasProperties");
 
 //define an array of valid properties for the request body

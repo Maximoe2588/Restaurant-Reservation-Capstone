@@ -1,5 +1,5 @@
 import React from "react";
-import reservation from "../reservationCard/reservation";
+//import Reservation from "../reservationCard/reservation";
 
 
 function ReservationsList({ reservations }) {

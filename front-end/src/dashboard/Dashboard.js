@@ -105,7 +105,6 @@ function Dashboard({ date: initialDate }) {
         <div>
           <fieldset>
             <legend>
-             
             </legend>
               <ReservationsList reservations={reservations} />
               <ErrorAlert error={reservationsError} />
@@ -116,7 +115,6 @@ function Dashboard({ date: initialDate }) {
         <div>
           <fieldset>
             <legend>Tables</legend>
-            
               <ErrorAlert error={tablesError} />
           </fieldset>
         </div>

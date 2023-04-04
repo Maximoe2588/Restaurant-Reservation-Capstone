@@ -52,6 +52,8 @@ function ensureOnlyValidProperties(req, res, next) {
   next();
 }
 
+//contains all the properties that are required to create a new reservation.
+
 const REQUIRED_PROPERTIES = [
   "first_name",
   "last_name",
@@ -61,19 +63,25 @@ const REQUIRED_PROPERTIES = [
   "people",
 ];
 
+// uses error function that checks for required properties
+
 const hasRequiredProperties = ensurePropertiesExist(...REQUIRED_PROPERTIES);
+
+
+// regex patterns to validate date and time formats
 
 const dateFormat = /^\d\d\d\d-\d\d-\d\d$/;
 const timeFormat = /^\d\d:\d\d$/;
 
+// checks whether a given time string matches the expected format
 function timeIsValid(timeString) {
   return timeString.match(timeFormat)?.[0];
 }
-
+// checks whether a given date string matches the expected format
 function dateFormatIsValid(dateString) {
   return dateString.match(dateFormat)?.[0];
 }
-
+// checks whether a given date and time are in the future
 function dateNotInPast(dateString, timeString) {
   const now = new Date();
   
@@ -81,16 +89,21 @@ function dateNotInPast(dateString, timeString) {
   return reservationDate >= now;
 }
 
+// checks whether a given time is during business hours (10:30 AM to 9:30 PM)
+
 function timeDuringBizHours(timeString) {
   const open = "10:30";
   const close = "21:30";
   return timeString <= close && timeString >= open;
 }
 
+// checks whether a given date is not a Tuesday
+
 function dateNotTuesday(dateString) {
   const date = new Date(dateString);
   return date.getUTCDay() !== 2;
 }
+// checks whether a given status is either null or "booked"
 
 function statusIsBookedOrNull(status) {
   if (!status || status === "booked") {
@@ -100,40 +113,49 @@ function statusIsBookedOrNull(status) {
   }
 }
 
+// validate reservation data before it's saved to the database
 
 function hasValidValues(req, res, next) {
   const { reservation_date, reservation_time, people } = req.body.data;
 
+  // check if the number of people is a positive integer
   if (!Number.isInteger(people) || people < 1) {
     return next({
       status: 400,
       message: "# of people must be a whole number and >= 1",
     });
   }
+
+    // check if the reservation time is in the correct format
   if (!timeIsValid(reservation_time)) {
     return next({
       status: 400,
       message: "reservation_time must be in HH:MM:SS (or HH:MM) format",
     });
   }
+   // check if the reservation date is in the correct format
   if (!dateFormatIsValid(reservation_date)) {
     return next({
       status: 400,
       message: "reservation_date must be in YYYY-MM-DD (ISO-8601) format",
     });
   }
+
+  // check if the reservation date and time are in the future
   if (!dateNotInPast(reservation_date, reservation_time)) {
     return next({
       status: 400,
       message: `You are attempting to submit a reservation in the past. Only future reservations are allowed`,
     });
   }
+  // check if the reservation time is within business hours
   if (!timeDuringBizHours(reservation_time)) {
     return next({
       status: 400,
       message: "The reservation time must be between 10:30 AM and 9:30 PM",
     });
   }
+  // check if the reservation date is not a Tuesday (when the restaurant is closed)
   if (!dateNotTuesday(reservation_date)) {
     return next({
       status: 400,
@@ -141,6 +163,7 @@ function hasValidValues(req, res, next) {
         "The reservation date is a Tuesday- but the restaurant is closed on Tuesdays",
     });
   }
+  // check if the status is either null or "booked"
   if (!statusIsBookedOrNull(req.body.data?.status)) {
     return next({
       status: 400,
