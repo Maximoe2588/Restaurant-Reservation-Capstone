@@ -1,7 +1,7 @@
 const service = require("./tables.service");
 const reservationsService = require("../reservations/reservations.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
-const { hasRequiredProperties, hasValidValues } = require("./validation");
+const ensurePropertiesExist = require("../errors/ensurePropertiesExist");
 
 async function hasReservationId(req, res, next) {
     if (req.body?.data?.reservation_id) {
@@ -118,13 +118,13 @@ async function list(req, res) {
 }
 
 
-    async function create(req, res) {
+async function create(req, res) {
     const data = await service.create(req.body.data);
     res.status(201).json({ data });
 }
 
 
-    async function read(req, res) {
+async function read(req, res) {
     const { table } = res.locals;
     res.json({ data: table });
 }

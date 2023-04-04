@@ -1,5 +1,5 @@
 import React from "react";
-import reservation from "../reservations/reservationCard";
+import reservation from "../reservationCard/reservation";
 //import LoadingWheel from "../../widgets/LoadingWheel";
 
 function ReservationsList({ reservations }) {
@@ -12,8 +12,8 @@ function ReservationsList({ reservations }) {
 
   // displays while waiting for api response, and if there are 0 results
   
-  const noReservations =
-    reservations === "loading" ? <LoadingWheel /> : noReservationsMessage;
+  /*const noReservations =
+    reservations === "loading" ? <LoadingWheel /> : noReservationsMessage;*/
 
   let reservationsMapped;
   let reservationsList = null;
@@ -33,16 +33,16 @@ function ReservationsList({ reservations }) {
 
     // map current reservations to Reservation components
 
-    reservationsMapped = currentReservations.map((res) => (
+    /*reservationsMapped = currentReservations.map((res) => (
       <Reservation key={res.id} reservation={res} />
-    ));
+    ));*/
     
     // wrap reservations in a card-deck element for styling
     
     reservationsList = <div className="card-deck">{reservationsMapped}</div>;
   }
-
-  return reservationsList ?? noReservations;
+/*
+  return reservationsList ?? noReservations;*/
 }
 
 export default ReservationsList;

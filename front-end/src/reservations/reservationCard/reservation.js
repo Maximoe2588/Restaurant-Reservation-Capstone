@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { updateReservationStatus } from "../../utils/api";
+//import { updateReservationStatus } from "../../utils/api"
 import ErrorAlert from "../../layout/ErrorAlert";
 
 function Reservation({ reservation }) {
@@ -27,24 +27,24 @@ const [cancelReservationError, setCancelReservationError] = useState(null);
 // abort controller to handles cancelling the request if the user navigates away
 
 const confirmCancel = () => {
-    if (
-        window.confirm(
-        "Do you want to cancel this reservation? This cannot be undone."
-    )
-    ) {
-    const abortController = new AbortController();
-        setCancelReservationError(null);
+    // if (
+    //     window.confirm(
+    //     "Do you want to cancel this reservation? This cannot be undone."
+    // )
+    // ) {
+    // const abortController = new AbortController();
+    //     setCancelReservationError(null);
 
-        updateReservationStatus(
-        reservation_id,
-        "cancelled",
-        abortController.signal
-        )
-        // history.go(0) refreshes the current page (should be /dashboard) so that tables effect hook reloads
-        .then(() => history.go(0))
-        .catch(setCancelReservationError);
-        return () => abortController.abort();
-    }
+    //     updateReservationStatus(
+    //     reservation_id,
+    //     "cancelled",
+    //     abortController.signal
+    //     )
+    //     // history.go(0) refreshes the current page (should be /dashboard) so that tables effect hook reloads
+    //     .then(() => history.go(0))
+    //     .catch(setCancelReservationError);
+    //     return () => abortController.abort();
+    // }
 };
 
 return (
@@ -74,7 +74,7 @@ return (
                 <ErrorAlert error={cancelReservationError} />
             </span>
         </div>
-            {buttons}
+            
     </div>
     );
 }

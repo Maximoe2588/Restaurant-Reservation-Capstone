@@ -1,5 +1,7 @@
 const service = require("./reservations.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
+const ensurePropertiesExist = require("../errors/ensurePropertiesExist");
+
 
 
 async function reservationExists(req, res, next) {
@@ -16,23 +18,80 @@ async function reservationExists(req, res, next) {
   });
 }
 
-async function list(req, res) {
-  try {
-    const reservations = await knex('reservations');
-    res.json({ data: reservations });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+
+const VALID_PROPERTIES = [
+  "first_name",
+  "last_name",
+  "mobile_number",
+  "reservation_date",
+  "reservation_time",
+  "people",
+  "status",
+  "reservation_id",
+  "created_at",
+  "updated_at",
+];
+
+function ensureOnlyValidProperties(req, res, next) {
+  const { data = {} } = req.body;
+  const invalidStatuses = Object.keys(data).filter(
+    (field) => !VALID_PROPERTIES.includes(field)
+  );
+  if (invalidStatuses.length) {
+    return next({
+      status: 400,
+      message: `Invalid field(s): ${invalidStatuses.join(", ")}`,
+    });
   }
+  next();
 }
 
-async function read(req, res) {
-  const { reservation } = res.locals;
-  res.json({ data: reservation });
+const REQUIRED_PROPERTIES = [
+  "first_name",
+  "last_name",
+  "mobile_number",
+  "reservation_date",
+  "reservation_time",
+  "people",
+];
+
+const hasRequiredProperties = ensurePropertiesExist(...REQUIRED_PROPERTIES);
+
+const dateFormat = /^\d\d\d\d-\d\d-\d\d$/;
+const timeFormat = /^\d\d:\d\d$/;
+
+function timeIsValid(timeString) {
+  return timeString.match(timeFormat)?.[0];
 }
 
-async function create(req, res) {
-  const reservation = await service.create(req.body.data);
-  res.status(201).json({ data: reservation });
+function dateFormatIsValid(dateString) {
+  return dateString.match(dateFormat)?.[0];
+}
+
+function dateNotInPast(dateString, timeString) {
+  const now = new Date();
+  
+  const reservationDate = new Date(dateString + "T" + timeString);
+  return reservationDate >= now;
+}
+
+function timeDuringBizHours(timeString) {
+  const open = "10:30";
+  const close = "21:30";
+  return timeString <= close && timeString >= open;
+}
+
+function dateNotTuesday(dateString) {
+  const date = new Date(dateString);
+  return date.getUTCDay() !== 2;
+}
+
+function statusIsBookedOrNull(status) {
+  if (!status || status === "booked") {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 
@@ -85,6 +144,39 @@ function hasValidValues(req, res, next) {
   next();
 }
 
+
+async function list(req, res) {
+  try {
+    const reservations = await knex('reservations');
+    res.json({ data: reservations });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+async function read(req, res) {
+  const { reservation } = res.locals;
+  res.json({ data: reservation });
+}
+
+async function create(req, res) {
+  const reservation = await service.create(req.body.data);
+  res.status(201).json({ data: reservation });
+}
+
 module.exports = {
-  list,
+  create: [
+    ensureOnlyValidProperties,
+    hasRequiredProperties,
+    hasValidValues,
+    asyncErrorBoundary(create),
+  ], 
+  list: [
+    hasValidQuery, 
+    asyncErrorBoundary(list)
+  ],
+  read: [
+    reservationExists, 
+    asyncErrorBoundary(read)
+  ],
 };

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+import useQuery from "../utils/useQuery";
 import { listReservations, listTables } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import DateNavigation from "./DateNavig";
 import ReservationsList from "../reservations/list/ReservationsList";
+//import TablesList from "../tables/list/TablesList";
 
 
 /**
@@ -103,7 +105,7 @@ function Dashboard({ date: initialDate }) {
         <div>
           <fieldset>
             <legend>
-              <CurrentTime sectionTitle={"Reservations"} />
+             
             </legend>
               <ReservationsList reservations={reservations} />
               <ErrorAlert error={reservationsError} />
@@ -114,7 +116,7 @@ function Dashboard({ date: initialDate }) {
         <div>
           <fieldset>
             <legend>Tables</legend>
-              <TablesList tables={tables} />
+            
               <ErrorAlert error={tablesError} />
           </fieldset>
         </div>
