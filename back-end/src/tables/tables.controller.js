@@ -3,6 +3,7 @@ const reservationsService = require("../reservations/reservations.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const ensurePropertiesExist = require("../errors/ensurePropertiesExist");
 
+
 async function hasReservationId(req, res, next) {
     if (req.body?.data?.reservation_id) {
         return next();
@@ -50,65 +51,50 @@ async function tableExists(req, res, next) {
     });
 }
 
-function tableIsBigEnough(req, res, next) {
-    const { table, reservation } = res.locals;
-    if (table.capacity >= reservation.people) {
-        return next();
-    }
-    next({
+const VALID_PROPERTIES = ["table_name", "capacity", "reservation_id"];
+
+function hasOnlyValidProperties(req, res, next) {
+    const { data = {} } = req.body;
+    const invalidFields = Object.keys(data).filter(
+        (field) => !VALID_PROPERTIES.includes(field)
+    );
+
+    if (invalidFields.length) {
+        return next({
         status: 400,
-        message: `Table with id: ${table.table_id} does not have the capacity to seat this reservation: capacity must be at least ${reservation.people}`,
+        message: `Invalid field(s): ${invalidFields.join(", ")}`,
     });
-}
-
-function tableIsOccupied(req, res, next, shouldBeOccupied) {
-    const { table } = res.locals;
-    if ((table.reservation_id && shouldBeOccupied) || (!table.reservation_id && !shouldBeOccupied)) {
-        return next();
     }
-    next({
-        status: 400,
-        message: `Table with id: ${table.table_id} is ${shouldBeOccupied ? "not" : ""} occupied`,
-    });
+    next();
 }
 
-function tableIsFree(req, res, next) {
-    return tableIsOccupied(req, res, next, false);
-}
+const hasRequiredProperties = ensurePropertiesExist(...["table_name", "capacity"]);
 
-function tableIsOccupiedMiddleware(req, res, next) {
-    return tableIsOccupied(req, res, next, true);
-}
-
-function assignReservationToTable(req, res, next) {
-    const { table } = res.locals;
-    const { reservation_id } = req.body.data;
-    table.reservation_id = reservation_id;
-    res.locals.resId = reservation_id;
-    res.locals.resStatus = "seated";
-    if (table.reservation_id) {
-        return next();
+function tableNameIsValid(tableName) {
+    return tableName.length > 1;
     }
-    next({
-        status: 400,
-        message: `Table with id: ${table.table_id} could not be assigned reservation id ${table.reservation_id}  for some reason. Please contact backend engineer for assistance`,
-    });
+
+function capacityIsValid(capacity) {
+    return Number.isInteger(capacity) && capacity >= 1;
 }
 
-function removeReservationFromTable(req, res, next) {
-    const { table } = res.locals;
-    res.locals.resId = table.reservation_id;
-    table.reservation_id = null;
-    res.locals.resStatus = "finished";
-    if (!table.reservation_id) {
-        return next();
+function hasValidValues(req, res, next) {
+    const { table_name, capacity } = req.body.data;
+
+    if (!capacityIsValid(capacity)) {
+        return next({
+            status: 400,
+            message: "capacity must be a whole number greater than or equal to 1",
+        });
     }
-    next({
-        status: 400,
-        message: `Table with id: ${table.table_id} could not remove reservation id ${table.reservation_id}  for some reason. Please contact backend engineer for assistance`,
-    });
+    if (!tableNameIsValid(table_name)) {
+        return next({
+            status: 400,
+            message: "table_name must be more than one character",
+        });
+    }
+    next();
 }
-
 
 async function list(req, res) {
     const tables = await service.list();
@@ -117,14 +103,15 @@ async function list(req, res) {
     res.json({ data: data });
 }
 
-
+  // Create handler for a new table
 async function create(req, res) {
     const data = await service.create(req.body.data);
     res.status(201).json({ data });
 }
 
-
+  // Read a table
 async function read(req, res) {
+    //* res.locals.table is being set from tableExists()
     const { table } = res.locals;
     res.json({ data: table });
 }

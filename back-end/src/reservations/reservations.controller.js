@@ -3,6 +3,7 @@ const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const ensurePropertiesExist = require("../errors/ensurePropertiesExist");
 
 
+//check if a reservation with the given ID exists in the database.
 
 async function reservationExists(req, res, next) {
   const { reservationId } = req.params;
@@ -18,6 +19,7 @@ async function reservationExists(req, res, next) {
   });
 }
 
+//valid properties that can be included in a request body
 
 const VALID_PROPERTIES = [
   "first_name",
@@ -32,8 +34,12 @@ const VALID_PROPERTIES = [
   "updated_at",
 ];
 
+
+
 function ensureOnlyValidProperties(req, res, next) {
+  // extracts the "data" object from the request body, or sets it to an empty object if it doesn't exist
   const { data = {} } = req.body;
+  // filters out any keys in the "data" object that are not included in the VALID_PROPERTIES array
   const invalidStatuses = Object.keys(data).filter(
     (field) => !VALID_PROPERTIES.includes(field)
   );

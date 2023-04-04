@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useParams } from "react-router";
-import {
-    postReservation,
-    updateReservation,
-    getReservation,
-  } from "../../utils/api";
+import { postReservation, updateReservation} from "../../utils/api";
 import ErrorAlert from "../../layout/ErrorAlert";
 
 
@@ -45,6 +41,22 @@ function Form({ method }) {
     const submitEdit = () => {
         const abortController = new AbortController();
         setReservationError(null);
+
+        const trimmedFormData = {
+            first_name: formData.first_name,
+            last_name: formData.last_name,
+            people: formData.people,
+            mobile_number: formData.mobile_number,
+            reservation_date: formData.reservation_date,
+            reservation_time: formData.reservation_time,
+        };
+    
+        updateReservation(reservation_id, trimmedFormData, abortController.signal)
+            .then(() => history.push(`/dashboard?date=${formData.reservation_date}`))
+            .catch(setReservationError);
+    
+        return () => abortController.abort();
+    };
 
 
     const handleCancel = (event) => {

@@ -39,4 +39,4 @@ return (
     );
 }
 
-export default ReservationButtons;
+export default reservationButtons;

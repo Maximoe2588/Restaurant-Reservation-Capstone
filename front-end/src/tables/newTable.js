@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { postTable } from "../../utils/api";
 import FormField from "./FormField";
 import FormButton from "./FormButton";
 import ErrorAlert from "../../layout/ErrorAlert";

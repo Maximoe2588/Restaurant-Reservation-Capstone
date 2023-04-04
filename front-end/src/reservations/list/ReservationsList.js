@@ -1,6 +1,6 @@
 import React from "react";
 import reservation from "../reservationCard/reservation";
-//import LoadingWheel from "../../widgets/LoadingWheel";
+
 
 function ReservationsList({ reservations }) {
   
