@@ -200,8 +200,7 @@ module.exports = {
     hasValidValues,
     asyncErrorBoundary(create),
   ], 
-  list: [
-    hasValidQuery, 
+  list: [ 
     asyncErrorBoundary(list)
   ],
   read: [
