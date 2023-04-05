@@ -1,5 +1,6 @@
 import React from "react";
 
+//allows user to seat, edit, cancel reservation
 
 function reservationButtons({ confirmCancel, id }) {
 

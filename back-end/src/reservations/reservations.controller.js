@@ -1,6 +1,8 @@
 const service = require("./reservations.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
-const ensurePropertiesExist = require("../errors/ensurePropertiesExist");
+const ensurePropertiesExist = require("../errors/ensurePropertiesExists");
+
+
 
 
 //check if a reservation with the given ID exists in the database.
@@ -173,6 +175,57 @@ function hasValidValues(req, res, next) {
   next();
 }
 
+function validateReservationStatus(req, res, next) {
+  const { status } = req.body.data;
+  const VALID_STATUSES = ["seated", "finished", "booked", "cancelled"];
+
+  if (!VALID_STATUSES.includes(status)) {
+    return next({
+      status: 400,
+      message: `${status} is an invalid status`,
+    });
+  }
+
+  next();
+}
+
+function checkReservationNotFinished(req, res, next) {
+  const { status } = res.locals.reservation;
+
+  if (status === "finished") {
+    return next({
+      status: 400,
+      message: `a finished reservation cannot be updated`,
+    });
+  }
+
+  next();
+}
+
+function checkReservationIsBooked(req, res, next) {
+  const { status } = res.locals.reservation;
+  if (status !== "booked") {
+    return next({
+      status: 400,
+      message: 'Only "booked" reservations may be edited',
+    });
+  }
+
+  next();
+}
+
+function ValidateQueryParams(req, res, next) {
+  const { date, mobile_number } = req.query;
+  if (!date && !mobile_number) {
+    return next({
+      status: 400,
+      message: `Either a ?date or ?mobile_number query is needed`,
+    });
+  }
+
+  next();
+}
+
 
 async function list(req, res) {
   try {
@@ -193,6 +246,30 @@ async function create(req, res) {
   res.status(201).json({ data: reservation });
 }
 
+async function updateReservationStatus(req, res) {
+  const newStatus = req.body.data.status;
+  const { reservation_id } = res.locals.reservation;
+  let data = await service.updateStatus(reservation_id, newStatus);
+  res.status(200).json({ data: { status: newStatus } });
+}
+
+async function update(req, res) {
+  const { reservation_id } = res.locals.reservation;
+  const newReservationDetails = req.body.data;
+  const existingReservation = res.locals.reservation;
+  const mergedReservation = {
+    ...existingReservation,
+    ...newReservationDetails,
+  };
+  let updatedReservation = await service.update(
+    reservation_id,
+    mergedReservation
+  );
+  res.status(200).json({ data: updatedReservation });
+}
+
+
+
 module.exports = {
   create: [
     ensureOnlyValidProperties,
@@ -201,10 +278,25 @@ module.exports = {
     asyncErrorBoundary(create),
   ], 
   list: [ 
+    ValidateQueryParams,
     asyncErrorBoundary(list)
   ],
   read: [
     reservationExists, 
     asyncErrorBoundary(read)
   ],
+  update: [
+    asyncErrorBoundary(reservationExists),
+    ensureOnlyValidProperties,
+    hasRequiredProperties,
+    hasValidValues,
+    checkReservationIsBooked,
+    asyncErrorBoundary(update),
+  ],
+  updateReservationStatus: [
+    asyncErrorBoundary(reservationExists),
+    validateReservationStatus,
+    checkReservationNotFinished,
+    asyncErrorBoundary(updateReservationStatus),
+  ]
 };
