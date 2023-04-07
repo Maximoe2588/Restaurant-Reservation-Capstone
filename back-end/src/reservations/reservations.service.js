@@ -1,6 +1,6 @@
 const knex = require("../db/connection");
 
-// returns non-finished reservations for the specified date
+// returns in progress reservations for a specific date
 
 const searchByDate = async (date) => {
     const reservations = await knex("reservations")
@@ -11,7 +11,7 @@ const searchByDate = async (date) => {
     return reservations;
 };
 
-  // returns all reservations that partial match the specified phone number
+  // returns all reservations that partially match the searched phone number
 
 const searchByPhone = async (mobile_number) => {
     const reservations = await knex("reservations")
@@ -24,7 +24,7 @@ const searchByPhone = async (mobile_number) => {
 };
 
 
-//retrieves a single reservation from the "res" table using the provided ID
+// retrieves a single reservation from the "res" table using the provided ID
 
 function read(id) {
         return knex("reservations")
@@ -33,7 +33,7 @@ function read(id) {
             .then((result) => result[0]);
     }
 
-//inserts a new reservation into the "res" table and returns the inserted data
+// inserts a new reservation into the "res" table and returns the inserted data
 
 function create(reservation) {
         return knex("reservations")
@@ -42,7 +42,7 @@ function create(reservation) {
             .then((result) => result[0]);
         }
 
-//updates existing reservation in the "res" table and returns the updated data
+// updates existing reservation in the "res" table and returns the updated data
     
 function update(reservation_id, updatedReservation) {
         return knex("reservations")
@@ -51,7 +51,9 @@ function update(reservation_id, updatedReservation) {
             .then((result) => result[0]);
         }
 
-function updateReservationStatus(reservation_id, status) {
+// updates status of reservation 
+
+function updateReservationAvailability(reservation_id, status) {
         return knex("reservations")
             .where({ reservation_id })
             .update({ status }, "*");
@@ -64,5 +66,5 @@ module.exports = {
     create,
     read,
     update,
-    updateReservationStatus
+    updateReservationAvailability
 };

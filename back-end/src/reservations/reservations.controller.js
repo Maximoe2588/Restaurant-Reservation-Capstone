@@ -1,11 +1,9 @@
 const service = require("./reservations.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
-const ensurePropertiesExist = require("../errors/ensurePropertiesExists");
+const ensurePropertiesExists = require("../errors/ensurePropertiesExists");
 
 
-
-
-//check if a reservation with the given ID exists in the database.
+// checks if reservations exists
 
 async function reservationExists(req, res, next) {
   const { reservationId } = req.params;
@@ -67,7 +65,7 @@ const REQUIRED_PROPERTIES = [
 
 // uses error function that checks for required properties
 
-const hasRequiredProperties = ensurePropertiesExist(...REQUIRED_PROPERTIES);
+const hasRequiredProperties = ensurePropertiesExists(...REQUIRED_PROPERTIES);
 
 
 // regex patterns to validate date and time formats
@@ -76,14 +74,19 @@ const dateFormat = /^\d\d\d\d-\d\d-\d\d$/;
 const timeFormat = /^\d\d:\d\d$/;
 
 // checks whether a given time string matches the expected format
+
 function timeIsValid(timeString) {
   return timeString.match(timeFormat)?.[0];
 }
+
 // checks whether a given date string matches the expected format
+
 function dateFormatIsValid(dateString) {
   return dateString.match(dateFormat)?.[0];
 }
+
 // checks whether a given date and time are in the future
+
 function dateNotInPast(dateString, timeString) {
   const now = new Date();
   
@@ -93,7 +96,7 @@ function dateNotInPast(dateString, timeString) {
 
 // checks whether a given time is during business hours (10:30 AM to 9:30 PM)
 
-function timeDuringBizHours(timeString) {
+function timeDuringOpenHours(timeString) {
   const open = "10:30";
   const close = "21:30";
   return timeString <= close && timeString >= open;
@@ -105,6 +108,7 @@ function dateNotTuesday(dateString) {
   const date = new Date(dateString);
   return date.getUTCDay() !== 2;
 }
+
 // checks whether a given status is either null or "booked"
 
 function statusIsBookedOrNull(status) {
@@ -151,7 +155,7 @@ function hasValidValues(req, res, next) {
     });
   }
   // check if the reservation time is within business hours
-  if (!timeDuringBizHours(reservation_time)) {
+  if (!timeDuringOpenHours(reservation_time)) {
     return next({
       status: 400,
       message: "The reservation time must be between 10:30 AM and 9:30 PM",
@@ -175,6 +179,8 @@ function hasValidValues(req, res, next) {
   next();
 }
 
+//validates status is one of 4 possibilities seated, finished, booked, cancelled
+
 function validateReservationStatus(req, res, next) {
   const { status } = req.body.data;
   const VALID_STATUSES = ["seated", "finished", "booked", "cancelled"];
@@ -189,6 +195,8 @@ function validateReservationStatus(req, res, next) {
   next();
 }
 
+//checks that reservation is not updated until completed.
+
 function checkReservationNotFinished(req, res, next) {
   const { status } = res.locals.reservation;
 
@@ -202,6 +210,8 @@ function checkReservationNotFinished(req, res, next) {
   next();
 }
 
+//checks that reservation is booked before it is edited
+
 function checkReservationIsBooked(req, res, next) {
   const { status } = res.locals.reservation;
   if (status !== "booked") {
@@ -213,6 +223,8 @@ function checkReservationIsBooked(req, res, next) {
 
   next();
 }
+
+//checks that request query parameters include either date/mobile number
 
 function ValidateQueryParams(req, res, next) {
   const { date, mobile_number } = req.query;
@@ -226,6 +238,11 @@ function ValidateQueryParams(req, res, next) {
   next();
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////
+//---------CRUD-----------------------------------------------------------------------------         
 
 async function list(req, res) {
   try {
@@ -249,17 +266,17 @@ async function create(req, res) {
 async function updateReservationStatus(req, res) {
   const newStatus = req.body.data.status;
   const { reservation_id } = res.locals.reservation;
-  let data = await service.updateStatus(reservation_id, newStatus);
+  let data = await service.updateReservationAvailability(reservation_id, newStatus);
   res.status(200).json({ data: { status: newStatus } });
 }
 
 async function update(req, res) {
   const { reservation_id } = res.locals.reservation;
-  const newReservationDetails = req.body.data;
-  const existingReservation = res.locals.reservation;
+  const newResDetails = req.body.data;
+  const existingRes = res.locals.reservation;
   const mergedReservation = {
-    ...existingReservation,
-    ...newReservationDetails,
+    ...existingRes,
+    ...newResDetails,
   };
   let updatedReservation = await service.update(
     reservation_id,
@@ -300,3 +317,4 @@ module.exports = {
     asyncErrorBoundary(updateReservationStatus),
   ]
 };
+
