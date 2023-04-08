@@ -2,7 +2,7 @@ import React from "react";
 
 //allows user to seat, edit, cancel reservation
 
-function reservationButtons({ confirmCancel, id }) {
+function reservedToolbar({ confirmCancel, id }) {
 
 return (
     <div
@@ -40,4 +40,4 @@ return (
     );
 }
 
-export default reservationButtons;
+export default reservedToolbar;

@@ -1,6 +1,7 @@
 import React from "react";
 import Form from "../form/Form";
 
+//renders form component to edit reservation using HTTP PUT method
 
 function Edit() {
     return (

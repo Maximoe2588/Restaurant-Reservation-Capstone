@@ -179,7 +179,6 @@ async function create(req, res) {
 
 
 async function read(req, res) {
-
     const { table } = res.locals;
     res.json({ data: table });
 }

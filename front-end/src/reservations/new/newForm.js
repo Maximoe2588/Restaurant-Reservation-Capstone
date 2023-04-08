@@ -1,6 +1,7 @@
 import React from "react";
 import Form from "../form/Form";
 
+//renders form component to create new reservation using HTTP POST method
 
 function New() {
     return (
