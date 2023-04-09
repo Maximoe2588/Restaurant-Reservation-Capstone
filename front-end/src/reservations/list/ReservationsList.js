@@ -2,19 +2,23 @@ import React from "react";
 import Reservation from "../reservationCard/reservation";
 
 
-function ReservationsList({ reservations }) {
+function reservationsList({ reservations }) {
 
   // display when no reservations are found
 
-const noReservationsFoundError = (
-    <span className="mx-auto">No reservations found.</span>
-);
-
-// displays while waiting for api response, and if there are 0 results
-
-const noReservations = reservations === "loading" ? (
-    <span className="mx-auto">Loading reservations...</span>
-    ) : noReservationsMessage;
+    const noReservations = reservations === "loading"
+        ? (//if reservation is "loading"
+            <span className="mx-auto">
+                Loading reservations...
+            </span>
+        )
+            : reservations.length // else if reservations is not "loading"
+                ? null // and there are reservations (i.e., reservations.length > 0), set noReservations to null
+                : (  // otherwise, if there are no reservations (i.e., reservations.length === 0)...
+                <span className="mx-auto">
+                    No reservations found.
+                </span>
+                );
 
     let reservationsMapped;
     let reservationsList = null;
@@ -41,4 +45,4 @@ const noReservations = reservations === "loading" ? (
     return reservationsList ?? noReservations;
 }
 
-export default ReservationsList;
+export default reservationsList;

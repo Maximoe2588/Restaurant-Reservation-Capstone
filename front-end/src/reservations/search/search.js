@@ -30,7 +30,7 @@ function Search() {
         const abortController = new AbortController();
         setReservationsError(null);
         setReservations([]);
-        setResultsMessage("...searching as fast as I can!");
+        setResultsMessage("...searching now!");
 
         //call API to list res by mobile
         listReservationsByMobile(mobileNumber, abortController.signal)
