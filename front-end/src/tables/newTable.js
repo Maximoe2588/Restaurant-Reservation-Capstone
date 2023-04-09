@@ -18,9 +18,9 @@ function NewTable() {
             capacity: "",
         };
 
-        const [formData, setFormData] = useState({ ...initialFormState });
+    const [formData, setFormData] = useState({ ...initialFormState });
 
-        const handleChange = ({ target }) => {
+    const handleChange = ({ target }) => {
             let value = target.value;
     
             if (target.name === "capacity" && typeof value === "string") {
@@ -33,25 +33,42 @@ function NewTable() {
             });
         };
     
-        const handleSubmit = (event) => {
+    const handleSubmit = (event) => {
             event.preventDefault();
+
+            // validate form data
+            if (!formData.table_name.trim()) {
+                setTablesError("Table name cannot be blank.");
+                return;
+            }
+
+            if (!Number.isInteger(formData.capacity) || formData.capacity < 1) {
+                setTablesError("Capacity must be a positive integer.");
+                return;
+            }
     
             const abortController = new AbortController();
             setTablesError(null);
     
             postTable(formData, abortController.signal)
-                .then(() => history.push(`/dashboard`))
+                .then(() => {
+                    //show success message
+                    alert("Table created Successfully!");
+                history.push(`/dashboard`);
+                })
                 .catch(setTablesError);
-            return () => abortController.abort();
+                
+            const cleanup = () => abortController.abort();
+            return cleanup;
         };
     
-        const handleCancel = (event) => {
+    const handleCancel = (event) => {
             event.preventDefault();
         
             history.goBack();
         };
 
-        return (
+    return (
             <section>
                 <div>
                     <h1>New Table</h1>
@@ -104,6 +121,6 @@ function NewTable() {
                 <ErrorAlert error={tablesError} />
         </section>
         );
-        
+    }
 
 export default NewTable;
