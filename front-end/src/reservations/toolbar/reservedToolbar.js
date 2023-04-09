@@ -1,43 +1,47 @@
 import React from "react";
 
-//allows user to seat, edit, cancel reservation
+// allows user to edit, create reserved 
 
-function reservedToolbar({ confirmCancel, id }) {
-
-return (
-    <div
-        role="toolbar"
-        aria-label="reservation actions"
-    >
+function ReservedToolbar({ confirmCancel, id }) {
+    return (
         <div
-            role="group"
-            aria-label="Assign to Table Button"
+            className="btn-toolbar-vertical my-2"
+            role="toolbar"
+            aria-label="reservation actions"
         >
-            <a href={`/reservations/${id}/seat`} className="btn btn-primary shadow">
-                <span className="oi oi-arrow-circle-bottom mr-2" />
+            <div
+                className="btn-group w-75"
+                role="group"
+                aria-label="Assign to Table Button"
+            >
+                <a href={`/reservations/${id}/seat`} className="btn btn-primary shadow">
+            <span className="oi oi-arrow-circle-bottom mr-2" />
                 Seat
-            </a>
-        </div>
-        <div
-            role="group"
-            aria-label="Toolbar with button groups "
-        >
-            <a href={`/reservations/${id}/edit`} className="btn btn-sm btn-secondary mr-1">
-                <span className="oi oi-pencil mr-2" />
+                </a>
+            </div>
+            <div
+                className="btn-group w-75 mt-2"
+                role="group"
+                aria-label="Toolbar with button groups "
+            > 
+                <a href={`/reservations/${id}/edit`}
+                    className="btn btn-sm btn-secondary w-25 mr-1"
+                >
+            <span className="oi oi-pencil mr-2" />
                 Edit
-            </a>
-        <button
-            type="button"
-            className="btn btn-sm btn-danger ml-1"
-            onClick={confirmCancel}
-            data-reservation-id-cancel={id}
-        >
+                </a>
+            <button
+                type="button"
+                className="btn btn-sm btn-danger w-25 ml-1"
+                onClick={confirmCancel}
+                data-reservation-id-cancel={id}
+            >
             <span className="oi oi-ban mr-1" />
                 Cancel
-        </button>
+            </button>
+            </div>
         </div>
-    </div>
     );
 }
 
-export default reservedToolbar;
+export default ReservedToolbar;
