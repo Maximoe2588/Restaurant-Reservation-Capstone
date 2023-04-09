@@ -2,6 +2,7 @@ import React from "react";
 import Reservation from "../reservationCard/reservation";
 
 
+
 function reservationsList({ reservations }) {
 
   // display when no reservations are found

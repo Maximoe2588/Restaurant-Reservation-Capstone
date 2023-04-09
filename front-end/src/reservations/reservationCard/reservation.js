@@ -20,7 +20,7 @@ function Reservation({ reservation }) {
     const [cancelReservationError, setCancelReservationError] = useState(null);
 
     const confirmCancel = () => {
-        if (window.confirm("Do you want to cancel this reservation? This cannot be undone.")) {
+        if (window.confirm("Do you want to cancel this reservation?")) {
         const abortController = new AbortController();
         setCancelReservationError(null);
 
