@@ -112,7 +112,6 @@ function Form({ method }) {
                 id="first_name"
                 type="text"
                 name="first_name"
-                value={form.first_name}
                 onChange={handleChange}
                 value={formData.first_name}
                 required={true}
@@ -125,59 +124,64 @@ function Form({ method }) {
                 id="last_name"
                 type="text"
                 name="last_name"
-                value={form.last_name}
+                value={formData.last_name}
                 onChange={handleChange}
-                required
+                required={true}
             />
             </label>
                 <br />
             <label>
             Mobile number:
             <input
-                type="tel"
+                id="mobile_number"
+                type="text"
                 name="mobile_number"
-                value={form.mobile_number}
                 onChange={handleChange}
-                required
+                value={formData.mobile_number}
+                required={true}
             />
             </label>
             <br />
             <label>
             Date of reservation:
             <input
+                id="reservation_date"
                 type="date"
                 name="reservation_date"
-                value={form.reservation_date}
                 onChange={handleChange}
-                required
+                value={formData.reservation_date}
+                required={true}
             />
             </label>
             <br />
             <label>
             Time of reservation:
             <input
+                id="reservation_time"
                 type="time"
                 name="reservation_time"
-                value={form.reservation_time}
                 onChange={handleChange}
-                required
+                value={formData.reservation_time}
+                required={true}
             />
             </label>
             <br />
             <label>
             Number of people:
             <input
+                id="people"
                 type="number"
                 name="people"
-                value={form.people}
                 onChange={handleChange}
+                required={true}
                 min="1"
-                required
+                value={formData.people}
             />
             </label>
+            <ErrorAlert error={reservationsError} />
             <br />
             <button type="submit">Submit</button>
-            <button type="button" onClick={handleCancel}>Cancel</button>
+            <button type="button" value="Cancel" onClick={handleCancel}>Cancel</button>
         </form>
     );
 };

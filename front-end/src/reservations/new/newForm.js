@@ -3,7 +3,7 @@ import Form from "../form/Form";
 
 //renders form component to create new reservation using HTTP POST method
 
-function New() {
+function newForm() {
     return (
         <section>
             <div className="d-md-flex mb-3">
@@ -14,4 +14,4 @@ function New() {
     );
 }
 
-export default New;
+export default newForm;
