@@ -24,7 +24,7 @@ function seatReservation () {
     useEffect(() => {
         const abortController = new AbortController();
         setAllTablesError(null);
-    
+    //fetch details for the current reservation ID
         listTables(abortController.signal)
             .then(setAllTables)
             .catch(setAllTablesError);
@@ -47,7 +47,7 @@ function seatReservation () {
         event.preventDefault();
         const abortController = new AbortController();
         setAssignTableError(null);
-    
+    // assign the reservation to the selected table
         assignToTable(reservation_id, formData.table_id, abortController.signal)
             .then(() => history.push("/dashboard"))
             .catch(setAssignTableError);
