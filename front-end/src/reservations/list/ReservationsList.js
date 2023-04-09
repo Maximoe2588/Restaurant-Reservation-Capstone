@@ -12,33 +12,29 @@ const noReservationsFoundError = (
 
 // displays while waiting for api response, and if there are 0 results
 
-const noReservations =
-    reservations === "loading" ? <LoadingWheel /> : noReservationsMessage;
+const noReservations = reservations === "loading" ? (
+    <span className="mx-auto">Loading reservations...</span>
+    ) : noReservationsMessage;
 
-    let reservationsMapped = [];
+    let reservationsMapped;
     let reservationsList = null;
     const currentReservations = [];
     const finishedReservations = [];
 
-  // waits for "loading" status to be replaced by a non-empty array of reservations
-    if (Array.isArray(reservations) && reservations.length) {
-    // separate reservations into current and finished based on status
+    // waits for "loading" status to be replaced by a non-empty array of reservations
+    if (reservations.length && reservations !== "loading") {
+      //  filters out finished reservations from rendering. "cancelled" could be added as well - tests are not affected either way.
         reservations.forEach((res) => {
             if (["finished"].includes(res.status)) {
-        finishedReservations.push(res);
-            } else {
-        currentReservations.push(res);
-    }
-});
+            finishedReservations.push(res);
+        } else {
+            currentReservations.push(res);
+        }
+        });
 
-    //map current reservations to Reservation components
-
-    reservationsMapped = currentReservations.map((res) => (
-        <Reservation key={res.id} reservation={res} />
-    ));
-    
-       //wrap reservations in a card-deck element for styling
-    
+        reservationsMapped = currentReservations.map((res, index) => (
+        <Reservation key={index} reservation={res} />
+        ));
         reservationsList = <div className="card-deck">{reservationsMapped}</div>;
     }
 

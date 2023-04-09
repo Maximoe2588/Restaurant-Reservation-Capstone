@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Switch } from "react-router-dom";
 import New from "./new/New";
 import Edit from "./edit/Edit";
-import Seat from "./seat/Seat";
+import Seat from "./seat/seatReservation";
 import NotFound from "../layout/NotFound";
 
 function ReservationRoutes() {

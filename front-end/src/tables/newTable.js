@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { postTable } from "../../utils/api";
-import FormField from "./FormField";
-import FormButton from "./FormButton";
 import ErrorAlert from "../../layout/ErrorAlert";
 
 
@@ -53,62 +51,59 @@ function NewTable() {
             history.goBack();
         };
 
-return (
-        <section>
-            <div className="d-md-flex mb-3 text-center">
-                <h1 className="mb-0">New Table</h1>
-            </div>
-                <form onSubmit={handleSubmit}>
-                    <div className="row">
-                    <div className="col-auto">
-                    <FormField
-                        id="table_name"
-                        label="Table Name"
-                        type="text"
-                        name="table_name"
-                        value={formData.table_name}
-                        onChange={handleChange}
-                        required={true}
-                    />
-                    <FormField
-                        id="capacity"
-                        label="Capacity"
-                        type="number"
-                        name="capacity"
-                        value={formData.capacity}
-                        onChange={handleChange}
-                        required={true}
-                        min="1"
-                    />
-                    <div
-                        className="btn-toolbar mb-5"
-                        role="toolbar"
-                        aria-label="Toolbar with form actions buttons"
-                    >
-                    <FormButton
-                        type="button"
-                        value="Cancel"
-                        className="btn btn-secondary mr-5"
-                        onClick={handleCancel}
-                        icon="oi-action-undo"
-                    >
-                        Cancel
-                    </FormButton>
-                    <FormButton
-                        type="submit"
-                        className="btn btn-primary"
-                        icon="oi-check"
-                    >
-                        Submit
-                    </FormButton>
-                    </div>
-                    </div>
+        return (
+            <section>
+                <div>
+                    <h1>New Table</h1>
                 </div>
+                <form onSubmit={handleSubmit}>
+                    <div>
+                        <div>
+                            <label htmlFor="table_name">Table Name:</label>
+                        <div>
+                            <input
+                                id="table_name"
+                                type="text"
+                                name="table_name"
+                                onChange={handleChange}
+                                value={formData.table_name}
+                                required={true}
+                            />
+                        </div>
+                    </div>
+                        <div>
+                            <label htmlFor="capacity">Capacity:</label>
+                        <div>
+                            <input
+                                id="capacity"
+                                type="number"
+                                name="capacity"
+                                onChange={handleChange}
+                                required={true}
+                                min="1"
+                                value={formData.capacity}
+                            />
+                        </div>
+                        </div>
+                    <div role="toolbar" aria-label="Toolbar with form actions buttons">
+                        <button
+                            type="button"
+                            value="Cancel"
+                            onClick={handleCancel}
+                        >
+                    <span />
+                            Cancel
+                        </button>
+                        <button type="submit">
+                            Submit
+                    <span />
+                        </button>
+                </div>
+            </div>
                 </form>
-                    <ErrorAlert error={tablesError} />
-            </section>
+                <ErrorAlert error={tablesError} />
+        </section>
         );
-    
-}
+        
 
 export default NewTable;
