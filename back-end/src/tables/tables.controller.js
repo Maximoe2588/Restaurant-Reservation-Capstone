@@ -1,5 +1,5 @@
 const service = require("./tables.service");
-const reservationsService = require("../reservations.reservations.service");
+const reservationsService = require("../reservations/reservations.service");
 const ensurePropertiesExist = require("../errors/ensurePropertiesExists");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 

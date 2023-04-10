@@ -1,5 +1,5 @@
 import React from "react";
-import Reservation from "../reservationCard/reservation";
+import Reservation from "../reservationCard/Reservation";
 
 
 

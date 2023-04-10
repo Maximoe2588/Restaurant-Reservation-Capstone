@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { postTable } from "../../utils/api";
-import ErrorAlert from "../../layout/ErrorAlert";
+import { postTable } from "../utils/api";
+import ErrorAlert from "../layout/ErrorAlert";
 
 
 //form for creating new table

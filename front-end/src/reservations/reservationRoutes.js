@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import New from "./new/New";
-import Edit from "./edit/Edit";
+import New from "./new/newForm";
+import Edit from "./edit/editForm";
 import Seat from "./seat/seatReservation";
 import NotFound from "../layout/NotFound";
 

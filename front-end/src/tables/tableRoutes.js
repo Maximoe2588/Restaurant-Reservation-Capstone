@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import NewTable from "./new/NewTable";
+import NewTable from "./newTable";
 import NotFound from "../layout/NotFound";
 
 function TableRoutes(){

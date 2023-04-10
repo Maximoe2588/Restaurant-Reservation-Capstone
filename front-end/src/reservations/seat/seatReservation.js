@@ -6,7 +6,7 @@ import ErrorAlert from "../../layout/ErrorAlert";
 
 //assigns seating to a reservation changing it's status
 
-function seatReservation () {
+function SeatReservation () {
 
     const { reservation_id } = useParams();
     const history = useHistory();
@@ -101,4 +101,4 @@ function seatReservation () {
     
 
 
-export default seatReservation;
+export default SeatReservation;
