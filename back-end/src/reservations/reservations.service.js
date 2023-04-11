@@ -58,5 +58,5 @@ module.exports = {
   create,
   read,
   update,
-  updateReservationAvailability
+  updateReservationAvailability,
 };

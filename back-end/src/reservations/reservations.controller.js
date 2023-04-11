@@ -226,7 +226,7 @@ function checkReservationIsBooked(req, res, next) {
 
 //checks that request query parameters include either date/mobile number
 
-function ValidateQueryParams(req, res, next) {
+function validateQueryParams(req, res, next) {
   const { date, mobile_number } = req.query;
   if (!date && !mobile_number) {
     return next({
@@ -245,12 +245,11 @@ function ValidateQueryParams(req, res, next) {
 //---------CRUD-----------------------------------------------------------------------------         
 
 async function list(req, res) {
-  try {
-    const reservations = await knex('reservations');
-    res.json({ data: reservations });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
+  const { mobile_number, date } = req.query;
+  const reservations = await (mobile_number
+    ? service.searchByPhone(mobile_number)
+    : service.searchByDate(date));
+  res.json({ data: reservations });
 }
 
 async function read(req, res) {
@@ -263,10 +262,17 @@ async function create(req, res) {
   res.status(201).json({ data: reservation });
 }
 
+async function updateReservationStatus(req,res){
+  const newStatus = req.body.data.status;
+  const { reservation_id } = res.locals.reservation;
+  let data = await service.updateStatus(reservation_id, newStatus);
+  res.status(200).json({data: {status: newStatus } });
+}
+
 async function updateReservationStatus(req, res) {
   const newStatus = req.body.data.status;
   const { reservation_id } = res.locals.reservation;
-  let data = await service.updateReservationAvailability(reservation_id, newStatus);
+  let data = await service.updateStatus(reservation_id, newStatus);
   res.status(200).json({ data: { status: newStatus } });
 }
 
@@ -295,7 +301,7 @@ module.exports = {
     asyncErrorBoundary(create),
   ], 
   list: [ 
-    ValidateQueryParams,
+    validateQueryParams,
     asyncErrorBoundary(list)
   ],
   read: [
