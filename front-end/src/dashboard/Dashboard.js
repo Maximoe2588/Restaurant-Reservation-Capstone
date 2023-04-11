@@ -30,7 +30,7 @@ function Dashboard({ date }) {
       const abortController = new AbortController();
       setReservationsError(null);
   
-      // listReservations will run every time {date} changes
+    
       listReservations({ date }, abortController.signal)
         .then(setReservations)
         .catch(setReservationsError);
