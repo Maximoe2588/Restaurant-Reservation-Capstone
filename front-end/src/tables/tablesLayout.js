@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { finishTable } from "../../utils/api";
-import ErrorAlert from "../../layout/ErrorAlert";
+import { finishTable } from "../utils/api";
+import ErrorAlert from "../layout/ErrorAlert";
 
 function TablesLayout({ table }) {
     const { table_name, table_id, capacity, reservation_id } = table;

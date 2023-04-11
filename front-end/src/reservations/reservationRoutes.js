@@ -16,6 +16,7 @@ function ReservationRoutes() {
                     <Edit />
                 </Route>
                 <Route path={"/reservations/:reservation_id/seat"}>
+                    <Seat />
                 </Route>
                 <Route>
                     <NotFound />
