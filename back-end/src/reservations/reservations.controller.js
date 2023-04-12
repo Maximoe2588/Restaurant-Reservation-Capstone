@@ -1,4 +1,4 @@
-const service = require("./reservations.service");
+const service = require("./reservations.service"); 
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const ensurePropertiesExists = require("../errors/ensurePropertiesExists");
 
@@ -269,12 +269,6 @@ async function updateReservationStatus(req,res){
   res.status(200).json({data: {status: newStatus } });
 }
 
-async function updateReservationStatus(req, res) {
-  const newStatus = req.body.data.status;
-  const { reservation_id } = res.locals.reservation;
-  let data = await service.updateStatus(reservation_id, newStatus);
-  res.status(200).json({ data: { status: newStatus } });
-}
 
 async function update(req, res) {
   const { reservation_id } = res.locals.reservation;

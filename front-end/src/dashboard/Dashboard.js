@@ -4,8 +4,8 @@ import { listReservations, listTables } from "../utils/api";
 import formatDisplayDate from "../utils/format-display-date";
 import ErrorAlert from "../layout/ErrorAlert";
 import DateNavigation from "./DateNavig";
-import ReservationsList from "../reservations/list/reservationsList";
-import TablesList from "../tables/tablesList";
+import ReservationsList from "../reservations/list/ReservationsList";
+import TablesList from "../tables/TablesList";
 
 
 

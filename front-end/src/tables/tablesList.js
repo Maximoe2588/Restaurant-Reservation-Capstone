@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom"; 
-import TablesLayout from "./tablesLayout";
+import TablesLayout from "./TablesLayout";
 
 function TablesList({ tables }) {
     const [isLoading, setIsLoading] = useState(true);

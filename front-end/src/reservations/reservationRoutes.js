@@ -1,8 +1,8 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import New from "./new/newForm";
-import Edit from "./edit/editForm";
-import Seat from "./seat/seatReservation";
+import New from "./new/NewForm";
+import Edit from "./edit/EditForm";
+import Seat from "./seat/SeatReservation";
 import NotFound from "../layout/NotFound";
 
 function ReservationRoutes() {

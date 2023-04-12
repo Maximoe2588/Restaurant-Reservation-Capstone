@@ -87,7 +87,7 @@ function Form({ method }) {
             people: formData.people,
             mobile_number: formData.mobile_number,
             reservation_date: formData.reservation_date,
-            reservation_time: formData.reservation_time,
+            reservation_time: formatAsTime(formData.reservation_time),
         };
     
         updateReservation(reservation_id, trimmedFormData, abortController.signal)
