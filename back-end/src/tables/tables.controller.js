@@ -4,6 +4,7 @@ const ensurePropertiesExist = require("../errors/ensurePropertiesExists");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
 
+
 async function hasReservationId(req, res, next) {
     if (req.body?.data?.reservation_id) {
         return next();
@@ -197,7 +198,10 @@ module.exports = {
         hasValidValues,
         asyncErrorBoundary(create),
     ],
-    read: [asyncErrorBoundary(tableExists), asyncErrorBoundary(read)],
+    read: [
+        asyncErrorBoundary(tableExists), 
+        asyncErrorBoundary(read)
+    ],
     assignReservationId: [
         asyncErrorBoundary(hasReservationId),
         asyncErrorBoundary(reservationExists),

@@ -52,6 +52,7 @@ async function update(tableToUpdate, reservationId, updatedReservationStatus) {
     }
 }
 
+
 module.exports = {
     create,
     read,
