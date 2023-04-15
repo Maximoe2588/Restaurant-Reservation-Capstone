@@ -10,6 +10,6 @@ router
 router
     .route("/")
     .get(controller.list)
-    .post(controller.create)
+    .post(controller.create);
 
 module.exports = router;
