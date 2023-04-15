@@ -74,7 +74,7 @@ function SeatReservation () {
                 required={true}
             >
                 <option defaultValue>Table: # - Capacity: #</option>
-                {allTables.map(({ table_id, table_name, capacity }) => (
+                {allTables.map(({ table_id, table_name, capacity, }) => (
                 <option key={table_id} value={table_id}>
                     {table_name} - {capacity}
                 </option>
