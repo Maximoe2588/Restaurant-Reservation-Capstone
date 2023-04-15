@@ -37,7 +37,7 @@ function TablesLayout({ table }) {
 
     return (
         <div style={{ minWidth: "200px", maxWidth: "200px" }}>
-            <h5>Table {table_name}</h5>
+            <h5 className="card-header p-0 py-2">Table {table_name}</h5>
             <div>
                 <div>
                     {`Status: `}

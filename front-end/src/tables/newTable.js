@@ -68,59 +68,72 @@ function NewTable() {
             history.goBack();
         };
 
-    return (
+        return (
             <section>
-                <div>
-                    <h1>New Table</h1>
+                <div className="d-md-flex mb-3 text-center">
+                    <h1 className="mb-0">New Table</h1>
                 </div>
                 <form onSubmit={handleSubmit}>
-                    <div>
-                        <div>
-                            <label htmlFor="table_name">Table Name:</label>
-                        <div>
-                            <input
-                                id="table_name"
-                                type="text"
-                                name="table_name"
-                                onChange={handleChange}
-                                value={formData.table_name}
-                                required={true}
-                            />
-                        </div>
+                    <div className="row">
+                    <div className="col-auto">
+                    <div className="form-group form-row">
+                        <label htmlFor="table_name" className="col-md-4 col-form-label">
+                            Table Name:
+                        </label>
+                    <div className="col-8 pt-2">
+                        <input
+                            id="table_name"
+                            type="text"
+                            name="table_name"
+                            className="form-control"
+                            onChange={handleChange}
+                            value={formData.table_name}
+                            required={true}
+                        />
                     </div>
-                        <div>
-                            <label htmlFor="capacity">Capacity:</label>
-                        <div>
-                            <input
-                                id="capacity"
-                                type="number"
-                                name="capacity"
-                                onChange={handleChange}
-                                required={true}
-                                min="1"
-                                value={formData.capacity}
-                            />
-                        </div>
-                        </div>
-                    <div role="toolbar" aria-label="Toolbar with form actions buttons">
+                    </div>
+                    <div className="form-group form-row">
+                        <label htmlFor="capacity" className="col-md-4 col-form-label">
+                            Capacity:
+                        </label>
+                    <div className="col-3 pt-2">
+                        <input
+                            id="capacity"
+                            type="number"
+                            name="capacity"
+                            className="form-control"
+                            onChange={handleChange}
+                            required={true}
+                            min="1"
+                            value={formData.capacity}
+                        />
+                    </div>
+                    </div>
+                    <div
+                        className="btn-toolbar mb-5"
+                        role="toolbar"
+                        aria-label="Toolbar with form actions buttons"
+                    >
                         <button
                             type="button"
                             value="Cancel"
+                            className="btn btn-secondary mr-5"
                             onClick={handleCancel}
                         >
-                    <span />
+                        <span className="oi oi-action-undo mr-2" />
                             Cancel
                         </button>
-                        <button type="submit">
+                        <button type="submit" className="btn btn-primary">
                             Submit
-                    <span />
+                        <span className="oi oi-check ml-2" />
                         </button>
+                    </div>
                 </div>
             </div>
-                </form>
-                <ErrorAlert error={tablesError} />
-        </section>
-        );
-    }
+        </form>
+            <ErrorAlert error={tablesError} />
+    </section>
+    );
+}
 
 export default NewTable;

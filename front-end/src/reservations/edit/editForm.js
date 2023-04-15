@@ -3,7 +3,7 @@ import Form from "../form/Form";
 
 //renders form component to edit reservation using HTTP PUT method
 
-function editForm() {
+function EditForm() {
     return (
         <section>
             <div className="d-md-flex mb-3 text-center">
@@ -14,4 +14,4 @@ function editForm() {
     );
 }
 
-export default editForm;
+export default EditForm;

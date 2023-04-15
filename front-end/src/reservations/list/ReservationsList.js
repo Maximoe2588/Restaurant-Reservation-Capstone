@@ -3,7 +3,7 @@ import Reservation from "../reservationCard/Reservation";
 
 
 
-function reservationsList({ reservations }) {
+function ReservationsList({ reservations }) {
 
   // display when no reservations are found
 
@@ -46,4 +46,4 @@ function reservationsList({ reservations }) {
     return reservationsList ?? noReservations;
 }
 
-export default reservationsList;
+export default ReservationsList;
