@@ -33,7 +33,7 @@ function NewTable() {
             });
         };
     
-    const handleSubmit = (event) => {
+   /* const handleSubmit = (event) => {
             event.preventDefault();
 
             // validate form data
@@ -66,7 +66,25 @@ function NewTable() {
             event.preventDefault();
         
             history.goBack();
-        };
+        };*/
+
+        const handleSubmit = (event) => {
+            event.preventDefault();
+        
+            const abortController = new AbortController();
+            setTablesError(null);
+        
+            postTable(formData, abortController.signal)
+              .then(() => history.push(`/dashboard`))
+              .catch(setTablesError);
+            return () => abortController.abort();
+          };
+        
+          const handleCancel = (event) => {
+            event.preventDefault();
+            // cancelling a new table while in progress sends user back to previous page.
+            history.goBack();
+          };
 
         return (
             <section>
