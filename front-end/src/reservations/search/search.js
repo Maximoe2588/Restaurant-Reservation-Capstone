@@ -17,7 +17,7 @@ function Search() {
 
     //state for search results message
 
-    const initialMessage = "search reservations...";
+    const initialMessage = "search current reservations...";
     const [resultsMessage, setResultsMessage] = useState(initialMessage);
 
     //changes search query input
@@ -77,7 +77,7 @@ function Search() {
                 name="mobile_number"
                 type="phone"
                 className="form-control"
-                placeholder="Enter a customer's phone number"
+                placeholder="Enter customer's phone #"
                 onChange={handleChange}
                 value={mobileNumber}
                 required={true}

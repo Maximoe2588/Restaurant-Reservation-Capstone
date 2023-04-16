@@ -8,9 +8,10 @@
   display: flex;
   flex-direction: column;
   border: 1px solid #ccc;
-  padding: 10px;
+  padding: 30px;
   margin-bottom: 10px;
 }
+
 
 .reservation-details {
   display: flex;
@@ -48,4 +49,23 @@
   font-size: 1.2rem;
   font-weight: bold;
   margin: 5px 0;
+}
+
+button[data-table-id-finish] {
+  position: relative; /* sets the button to be positioned relative to its current position */
+  top: -10px; /* adjust the value as needed */
+}
+
+span[data-table-id-status] {
+  font-family: Arial, sans-serif; /* replace with the font you want for both "Occupied" and "Free" */
+  font-weight: bold; /* apply bold font to both "Occupied" and "Free" */
+  font-size: 16px; /* adjust the font size as needed */
+}
+
+span.occupied {
+  color: red; /* apply red color to "Occupied" */
+}
+
+span.free {
+  color: green; /* apply green color to "Free" */
 }

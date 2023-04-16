@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import TablesLayout from "./TablesLayout";
 
 function TablesList({ tables }) {
+    console.log(tables);
     const [isLoading, setIsLoading] = useState(true);
     const noTablesMessage = (
         <p>

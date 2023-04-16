@@ -41,8 +41,8 @@ function TablesLayout({ table }) {
             <div>
                 <div>
                     {`Status: `}
-                    <span data-table-id-status={`${table_id}`}>
-                        {occupied ? "occupied" : "free"}
+                    <span data-table-id-status={`${table_id}`} className={occupied ? "occupied" : "free"}>
+                        {occupied ? "Occupied" : "Free"}
                     </span>
                 </div>
                 <p>
