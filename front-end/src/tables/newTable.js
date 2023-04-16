@@ -33,40 +33,7 @@ function NewTable() {
             });
         };
     
-   /* const handleSubmit = (event) => {
-            event.preventDefault();
 
-            // validate form data
-            if (!formData.table_name.trim()) {
-                setTablesError("Table name cannot be blank.");
-                return;
-            }
-
-            if (!Number.isInteger(formData.capacity) || formData.capacity < 1) {
-                setTablesError("Capacity must be a positive integer.");
-                return;
-            }
-    
-            const abortController = new AbortController();
-            setTablesError(null);
-    
-            postTable(formData, abortController.signal)
-                .then(() => {
-                    //show success message
-                    alert("Table created Successfully!");
-                history.push(`/dashboard`);
-                })
-                .catch(setTablesError);
-                
-            const cleanup = () => abortController.abort();
-            return cleanup;
-        };
-    
-    const handleCancel = (event) => {
-            event.preventDefault();
-        
-            history.goBack();
-        };*/
 
         const handleSubmit = (event) => {
             event.preventDefault();
@@ -75,16 +42,15 @@ function NewTable() {
             setTablesError(null);
         
             postTable(formData, abortController.signal)
-              .then(() => history.push(`/dashboard`))
-              .catch(setTablesError);
+                .then(() => history.push(`/dashboard`))
+                .catch(setTablesError);
             return () => abortController.abort();
-          };
+        };
         
-          const handleCancel = (event) => {
+        const handleCancel = (event) => {
             event.preventDefault();
-            // cancelling a new table while in progress sends user back to previous page.
             history.goBack();
-          };
+        };
 
         return (
             <section>
