@@ -1,4 +1,51 @@
+
 .side-bar {
   background-color: #393a44;
   min-width: 200px;
+}
+
+.reservation-box {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.reservation-details {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.reservation-details > * {
+  margin-right: 10px;
+}
+
+.reservation-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.reservation-status > span {
+  flex-grow: 1;
+}
+
+.reservation-status > .bg-light {
+  flex-shrink: 0;
+  margin-left: 10px;
+  padding: 5px;
+}
+
+.reservation-info {
+  text-align: center;
+  margin: 10px 0;
+}
+
+.name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 5px 0;
 }

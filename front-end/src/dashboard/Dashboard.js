@@ -64,7 +64,8 @@ function Dashboard({ date }) {
         <div className="row">
           <div className="col-md-12 mx-auto">
             <fieldset className="border border-bottom-0 border-dark p-3 m-0">
-              <legend className="pl-2 shadow bg-dark rounded sticky-top">
+              <legend className="pl-2 text-white shadow bg-dark rounded sticky-top">
+                Reservations
               </legend>
               <ReservationsList reservations={reservations} />
               <ErrorAlert error={reservationsError} />

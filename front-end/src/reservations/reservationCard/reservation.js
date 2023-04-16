@@ -31,39 +31,41 @@ function Reservation({ reservation }) {
         }
     };
 
-return (
-    <div>
-        <div>
-            <span>
-            <span>{reservation_time}</span>
-            </span>
-        </div>
-
-        <div>
-            <span>
-            <span>{people}</span>
-                <p>{first_name} {last_name}</p>
-                <a href={`tel:${mobile_number}`}>{mobile_number}</a>
-            </span>
-        </div>
-
-        <div>
-            <span>
-            {"Status: "}
-            <span data-reservation-id-status={reservation_id}>
-                {status}
-            </span>
-                <ErrorAlert error={cancelReservationError} />
-            </span>
-        </div>
-
-        {status === "booked" ? (
-            <div className={"bg-light"}>
-                <ReservedToolbar confirmCancel={confirmCancel} id={reservation_id} />
+    return (
+        <div className="reservation-box">
+            <div className="reservation-details">
+                <span>
+                <span>{reservation_time}</span>
+                </span>
             </div>
-    ) : null}
-    </div>
-    );
-}
-
-export default Reservation;
+    
+            <div className="reservation-details">
+                <span>
+                <span>Party Size: {people}</span>
+                <p className="name">
+                    <b>{first_name} {last_name}</b>
+                </p>
+                    <a href={`tel:${mobile_number}`}>{mobile_number}</a>
+                </span>
+            </div>
+    
+            <div className="reservation-status">
+                <span>
+                {"Status: "}
+                <span data-reservation-id-status={reservation_id}>
+                    {status}
+                </span>
+                    <ErrorAlert error={cancelReservationError} />
+                </span>
+            </div>
+    
+            {status === "booked" ? (
+                <div>
+                    <ReservedToolbar confirmCancel={confirmCancel} id={reservation_id} />
+                </div>
+        ) : null}
+        </div>
+        );
+    }
+    
+    export default Reservation;
