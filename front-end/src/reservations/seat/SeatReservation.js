@@ -49,7 +49,7 @@ function SeatReservation () {
         setAssignTableError(null);
     // assign the reservation to the selected table
         assignToTable(reservation_id, formData.table_id, abortController.signal)
-            .then(() => history.push("/dashboard"))
+            .then(() => history.push(`/dashboard?date=${reservationDetails.reservation_date}`))
             .catch(setAssignTableError);
         return () => abortController.abort();
         };
